@@ -3,7 +3,7 @@ import {
   ZoneSegmentControl
 } from '@/features/segmentControls'
 
-export default function Home() {
+export default async function Home() {
   return (
     <main className="px-8 py-16">
       <h1 className="text-white text-2xl">Бронирования</h1>
