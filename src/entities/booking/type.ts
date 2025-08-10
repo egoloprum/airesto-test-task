@@ -1,11 +1,11 @@
-interface BookingData {
+export interface BookingData {
   available_days: string[]
   current_day: string
   restaurant: Restaurant
   tables: Table[]
 }
 
-interface Restaurant {
+export interface Restaurant {
   id: number
   timezone: string
   restaurant_name: string
@@ -13,7 +13,7 @@ interface Restaurant {
   closing_time: string
 }
 
-interface Table {
+export interface Table {
   id: string
   capacity: number
   number: string
@@ -22,14 +22,14 @@ interface Table {
   reservations: Reservation[]
 }
 
-interface Order {
+export interface Order {
   id: string
   status: 'New' | 'Bill' | 'Closed' | 'Banquet'
   start_time: string
   end_time: string
 }
 
-interface Reservation {
+export interface Reservation {
   id: number
   name_for_reservation: string
   num_people: number

@@ -1,4 +1,6 @@
-export const BookingDay7thOfApril = {
+import { BookingData } from "./type";
+
+export const BookingDay7thOfApril: BookingData = {
   available_days: [
     '2025-04-04',
     '2025-04-05',
