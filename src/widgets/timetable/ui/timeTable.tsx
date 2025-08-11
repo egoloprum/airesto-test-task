@@ -245,6 +245,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               ...eventStyle,
               width: `${ev.originalWidth}px`,
               left: `${HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX}px`,
+              height: `${ev.height <= CELL_HEIGHT * 2 && '100px'}`,
               zIndex: 50
             }
 
