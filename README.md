@@ -23,7 +23,7 @@
 ## Демо
 
 Рабочая версия приложения доступна по ссылке:
-[Демо приложения](https://google.com)
+[Демо приложения](https://airesto-test-task.vercel.app/)
 
 ## Screenshots
 
