@@ -150,15 +150,15 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
   })
 
   return (
-    <div className="mt-8 w-full overflow-x-auto scrollbar">
+    <div className={`mt-8 w-full scrollbar`}>
       <div className="text-white inline-block relative">
         {/* Header row */}
-        <div className="flex">
+        <div className="flex sticky top-0 z-20">
           <div className="h-10 w-8"></div>
           {tablesInSelectedZones.map(table => (
             <div
               key={table.id}
-              className="h-10 w-20 flex flex-col items-center justify-center text-xs text-stone-400">
+              className={`h-[${CELL_HEIGHT}px] w-[${CELL_WIDTH}px] flex flex-col items-center justify-center text-xs text-stone-400`}>
               <p className="flex gap-1">
                 <span>
                   #<b className="text-white">{table.number}</b>
@@ -171,21 +171,17 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
         </div>
 
         {/* Body rows */}
-        <div
-          className="relative"
-          style={{ height: `${timeSlots.length * CELL_HEIGHT}px` }}>
+        <div className={`h-[${timeSlots.length * CELL_HEIGHT}px]`}>
           {/* Time labels */}
           {timeSlots.map((slot, index) => (
             <div
               key={slot.time}
-              className="absolute text-xs text-stone-400"
+              className="text-xs text-stone-400 w-fit"
               style={{
-                top: `${index * CELL_HEIGHT}px`,
-                left: '4px',
-                height: `${CELL_HEIGHT}px`,
-                lineHeight: `${CELL_HEIGHT}px`
+                top: `${(index + 1) * CELL_HEIGHT}px`,
+                height: `${CELL_HEIGHT}px`
               }}>
-              {slot.time}
+              <span>{slot.time}</span>
             </div>
           ))}
 
@@ -222,7 +218,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               return (
                 <div
                   key={ev.id}
-                  className={`absolute text-[11px] border-l-2 rounded-sm truncate p-2`}
+                  className={`absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2`}
                   style={{
                     backgroundColor: badge.bgColor,
                     borderColor: badge.borderColor,
@@ -235,15 +231,15 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   <p className="font-medium">{ev.orderLabel}</p>
                   {ev.status !== 'Banquet' && (
                     <div
-                      className="text-[8px] rounded-[4px] w-fit p-[2px] mt-1"
+                      className="flex text-[8px] rounded-[4px] w-fit p-[2px]"
                       style={{
                         color: badge.badgeTextColor,
                         backgroundColor: badge.badgeBgColor
                       }}>
-                      {badge.content}
+                      <span>{badge.content}</span>
                     </div>
                   )}
-                  <p className="text-[10px] text-stone-300 mt-1">
+                  <p className="text-[10px] text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>
@@ -254,7 +250,9 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               return (
                 <div
                   key={ev.id}
-                  className={`absolute text-[11px] border-l-2 rounded-sm truncate p-2`}
+                  className={
+                    'absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2'
+                  }
                   style={{
                     backgroundColor: badge.bgColor,
                     borderColor: badge.borderColor,
@@ -267,27 +265,27 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   <p className="text-[10px] text-stone-300">
                     #{ev.reservationId}
                   </p>
-                  <p className="flex gap-1 items-center mt-1">
+                  <p className="flex gap-1 items-center">
                     <b className="truncate">{ev.reservationName}</b>
                     <span className="text-[10px]">
                       {ev.reservationPeopleNumber} чел
                     </span>
                   </p>
                   <div
-                    className="text-[8px] rounded-[4px] w-fit p-[2px] mt-1"
+                    className="flex text-[8px] rounded-[4px] w-fit p-[2px]"
                     style={{
                       color: badge.badgeTextColor,
                       backgroundColor: badge.badgeBgColor
                     }}>
-                    {badge.content}
+                    <span className="truncate max-w-14">{badge.content}</span>
                   </div>
-                  <div className="flex gap-1 items-center mt-1">
+                  <div className="flex gap-1 items-center">
                     <Phone className="w-3 h-3" />
-                    <span className="text-[10px] truncate">
+                    <span className="text-[10px] truncate max-w-10">
                       {ev.reservationPhoneNumber}
                     </span>
                   </div>
-                  <p className="text-[10px] text-stone-300 mt-1">
+                  <p className="text-[10px] text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>
