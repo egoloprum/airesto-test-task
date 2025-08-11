@@ -41,9 +41,7 @@ export const DateSegmentControl = ({}) => {
   const clickHandler = (date: string) => {
     const params = new URLSearchParams(searchParams.toString())
 
-    if (currentDate === date) {
-      params.delete('date')
-    } else {
+    if (currentDate !== date) {
       params.set('date', date)
     }
 

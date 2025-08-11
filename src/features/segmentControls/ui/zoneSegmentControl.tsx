@@ -10,21 +10,29 @@ export const ZoneSegmentControl = ({}) => {
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const currentZone = searchParams.get('zone')
+  const currentZones = searchParams.get('zone')?.split(',') || []
 
   const clickHandler = (zone: string) => {
     const params = new URLSearchParams(searchParams.toString())
 
-    if (currentZone === zone) {
+    let updatedZones = [...currentZones]
+
+    if (updatedZones.includes(zone)) {
+      updatedZones = updatedZones.filter(z => z !== zone)
+    } else {
+      updatedZones.push(zone)
+    }
+
+    if (updatedZones.length === 0) {
       params.delete('zone')
     } else {
-      params.set('zone', zone)
+      params.set('zone', updatedZones.join(','))
     }
 
     router.push(`${pathname}?${params.toString()}`)
   }
 
-  const isActive = (zone: string) => currentZone === zone
+  const isActive = (zone: string) => currentZones.includes(zone)
 
   return (
     <div className="mt-4 flex flex-col gap-2">
