@@ -1,3 +1,5 @@
+'use client'
+
 import { Phone } from 'lucide-react'
 
 import { BookingData } from '@/entities/booking'
@@ -121,18 +123,16 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
   )
 
   const stackedEvents = positionedEvents.map(ev => {
-    // Find all events that overlap in time (within 30 minutes) on the same table
     const overlappingEvents = positionedEvents.filter(
       e =>
-        e.x === ev.x && // Same table
-        Math.abs(TimeToMinutes(e.start) - TimeToMinutes(ev.start)) <= 30 && // Within 30 minutes
+        e.x === ev.x &&
+        Math.abs(TimeToMinutes(e.start) - TimeToMinutes(ev.start)) <= 30 &&
         ev.y * CELL_HEIGHT + ev.offsetTop <
           e.y * CELL_HEIGHT + e.offsetTop + e.height &&
         ev.y * CELL_HEIGHT + ev.offsetTop + ev.height >
           e.y * CELL_HEIGHT + e.offsetTop
     )
 
-    // Sort overlapping events by their start time
     overlappingEvents.sort((a, b) => {
       return TimeToMinutes(a.start) - TimeToMinutes(b.start)
     })
@@ -140,7 +140,6 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
     const indexInOverlap = overlappingEvents.findIndex(e => e.id === ev.id)
     const totalOverlapping = overlappingEvents.length
 
-    // Calculate width and position based on number of overlapping events
     let width, offsetX
     if (totalOverlapping > 1) {
       width = CELL_WIDTH / totalOverlapping
@@ -155,8 +154,10 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
       offsetX,
       zIndex: indexInOverlap > 0 ? indexInOverlap * OFFSET_Z_INDEX : 0,
       width,
+      originalWidth: CELL_WIDTH,
       totalOverlapping,
-      indexInOverlap
+      indexInOverlap,
+      hasDividedWidth: totalOverlapping > 1
     }
   })
 
@@ -236,15 +237,29 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               left: HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX,
               width: `${ev.width}px`,
               height: `${ev.height}px`,
-              zIndex: ev.zIndex
+              zIndex: ev.zIndex,
+              transition: 'all 0.3s ease-in-out'
+            }
+
+            const hoverStyle = {
+              ...eventStyle,
+              width: `${ev.originalWidth}px`,
+              left: `${HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX}px`,
+              zIndex: 50
             }
 
             if (ev.isOrder) {
               return (
                 <div
                   key={ev.id}
-                  className={`absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2`}
-                  style={eventStyle}>
+                  className="absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2 cursor-pointer hover:backdrop-filter hover:backdrop-blur-sm hover:bg-opacity-10"
+                  style={eventStyle}
+                  onMouseEnter={e => {
+                    Object.assign(e.currentTarget.style, hoverStyle)
+                  }}
+                  onMouseLeave={e => {
+                    Object.assign(e.currentTarget.style, eventStyle)
+                  }}>
                   <p className="font-medium">{ev.orderLabel}</p>
                   {ev.status !== 'Banquet' && (
                     <div
@@ -267,10 +282,14 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               return (
                 <div
                   key={ev.id}
-                  className={
-                    'absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2'
-                  }
-                  style={eventStyle}>
+                  className="absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2 cursor-pointer hover:backdrop-filter hover:backdrop-blur-sm hover:bg-opacity-10"
+                  style={eventStyle}
+                  onMouseEnter={e => {
+                    Object.assign(e.currentTarget.style, hoverStyle)
+                  }}
+                  onMouseLeave={e => {
+                    Object.assign(e.currentTarget.style, eventStyle)
+                  }}>
                   <p className="text-[10px] text-stone-300">
                     #{ev.reservationId}
                   </p>
