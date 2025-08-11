@@ -25,7 +25,11 @@ interface TimeTableProps {
 
 export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
   if (!zone.length) {
-    return <div>select zone</div>
+    return (
+      <div className="text-white mt-8">
+        Выбирай какой-то зон чтобы посмотреть таблицу
+      </div>
+    )
   }
 
   const timeSlots = GenerateTimeSlots(bookingData.restaurant)
@@ -134,7 +138,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
     )
 
     overlappingEvents.sort((a, b) => {
-      return TimeToMinutes(a.start) - TimeToMinutes(b.start)
+      return TimeToMinutes(b.start) - TimeToMinutes(a.start)
     })
 
     const indexInOverlap = overlappingEvents.findIndex(e => e.id === ev.id)
@@ -152,7 +156,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
     return {
       ...ev,
       offsetX,
-      zIndex: indexInOverlap > 0 ? indexInOverlap * OFFSET_Z_INDEX : 0,
+      zIndex: indexInOverlap * OFFSET_Z_INDEX,
       width,
       originalWidth: CELL_WIDTH,
       totalOverlapping,
@@ -246,7 +250,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               width: `${ev.originalWidth}px`,
               left: `${HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX}px`,
               height: `${ev.height <= CELL_HEIGHT * 2 && '100px'}`,
-              zIndex: 50
+              zIndex: stackedEvents.length * OFFSET_Z_INDEX + 1
             }
 
             if (ev.isOrder) {

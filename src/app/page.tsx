@@ -1,13 +1,7 @@
+import axios from 'axios'
 import { redirect } from 'next/navigation'
 
-import {
-  BookingData,
-  BookingDay4thOfApril,
-  BookingDay5thOfApril,
-  BookingDay6thOfApril,
-  BookingDay7thOfApril,
-  BookingDay8thOfApril
-} from '@/entities/booking'
+import { BookingData, BookingDay4thOfApril } from '@/entities/booking'
 import {
   DateSegmentControl,
   ZoneSegmentControl
@@ -17,6 +11,21 @@ import { TimeTable } from '@/widgets/timetable'
 interface SearchParams {
   date: string
   zone: string
+}
+
+async function fetchBookingData(
+  date: string,
+  zone: string
+): Promise<BookingData> {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+    const response = await axios.get(
+      `${baseUrl}/api/booking/get?date=${date}${zone ? `&zone=${zone}` : ''}`
+    )
+    return response.data
+  } catch {
+    return BookingDay4thOfApril
+  }
 }
 
 export default async function Home({
@@ -34,28 +43,7 @@ export default async function Home({
     redirect('/?date=2025-04-04')
   }
 
-  let bookingData: BookingData
-
-  switch (date) {
-    case '2025-04-04':
-      bookingData = BookingDay4thOfApril
-      break
-    case '2025-04-05':
-      bookingData = BookingDay5thOfApril
-      break
-    case '2025-04-06':
-      bookingData = BookingDay6thOfApril
-      break
-    case '2025-04-07':
-      bookingData = BookingDay7thOfApril
-      break
-    case '2025-04-08':
-      bookingData = BookingDay8thOfApril
-      break
-    default:
-      bookingData = BookingDay4thOfApril
-      break
-  }
+  const bookingData = await fetchBookingData(date, zone)
 
   return (
     <main className="px-8 py-16">
