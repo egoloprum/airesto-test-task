@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation'
+
 import {
   BookingData,
   BookingDay4thOfApril,
@@ -11,7 +13,6 @@ import {
   ZoneSegmentControl
 } from '@/features/segmentControls'
 import { TimeTable } from '@/widgets/timetable'
-import { redirect } from 'next/navigation'
 
 interface SearchParams {
   date: string
@@ -27,7 +28,7 @@ export default async function Home({
   const date = resolvedSearchParams?.date || ''
   const zone = resolvedSearchParams?.zone || ''
 
-  const filteredZones = zone.split(',')
+  const filteredZones = zone.split(',').filter(zone => zone.length !== 0)
 
   if (!date) {
     redirect('/?date=2025-04-04')
@@ -39,7 +40,6 @@ export default async function Home({
     case '2025-04-04':
       bookingData = BookingDay4thOfApril
       break
-
     case '2025-04-05':
       bookingData = BookingDay5thOfApril
       break
