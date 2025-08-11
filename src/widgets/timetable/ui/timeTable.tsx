@@ -11,9 +11,9 @@ import {
   GenerateTimeSlots,
   HEADER_HEIGHT,
   HEADER_WIDTH,
-  OFFSET_MARGIN_LEFT,
   OFFSET_Z_INDEX,
-  StatusBadges
+  StatusBadges,
+  TimeToMinutes
 } from '../helpers/utils'
 
 interface TimeTableProps {
@@ -121,31 +121,42 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
   )
 
   const stackedEvents = positionedEvents.map(ev => {
+    // Find all events that overlap in time (within 30 minutes) on the same table
     const overlappingEvents = positionedEvents.filter(
       e =>
-        e.x === ev.x &&
+        e.x === ev.x && // Same table
+        Math.abs(TimeToMinutes(e.start) - TimeToMinutes(ev.start)) <= 30 && // Within 30 minutes
         ev.y * CELL_HEIGHT + ev.offsetTop <
           e.y * CELL_HEIGHT + e.offsetTop + e.height &&
         ev.y * CELL_HEIGHT + ev.offsetTop + ev.height >
           e.y * CELL_HEIGHT + e.offsetTop
     )
 
+    // Sort overlapping events by their start time
     overlappingEvents.sort((a, b) => {
-      const aStart = a.y * CELL_HEIGHT + a.offsetTop
-      const bStart = b.y * CELL_HEIGHT + b.offsetTop
-      return aStart - bStart
+      return TimeToMinutes(a.start) - TimeToMinutes(b.start)
     })
 
     const indexInOverlap = overlappingEvents.findIndex(e => e.id === ev.id)
+    const totalOverlapping = overlappingEvents.length
+
+    // Calculate width and position based on number of overlapping events
+    let width, offsetX
+    if (totalOverlapping > 1) {
+      width = CELL_WIDTH / totalOverlapping
+      offsetX = indexInOverlap * width
+    } else {
+      width = CELL_WIDTH
+      offsetX = 0
+    }
 
     return {
       ...ev,
-      offsetX: indexInOverlap > 0 ? indexInOverlap * OFFSET_MARGIN_LEFT : 0,
+      offsetX,
       zIndex: indexInOverlap > 0 ? indexInOverlap * OFFSET_Z_INDEX : 0,
-      width:
-        indexInOverlap > 0
-          ? CELL_WIDTH - indexInOverlap * OFFSET_MARGIN_LEFT
-          : CELL_WIDTH
+      width,
+      totalOverlapping,
+      indexInOverlap
     }
   })
 
@@ -158,7 +169,11 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
           {tablesInSelectedZones.map(table => (
             <div
               key={table.id}
-              className={`h-[${CELL_HEIGHT}px] w-[${CELL_WIDTH}px] flex flex-col items-center justify-center text-xs text-stone-400`}>
+              className="flex flex-col items-center justify-center text-xs text-stone-400"
+              style={{
+                height: `${CELL_HEIGHT}px`,
+                width: `${CELL_WIDTH}px`
+              }}>
               <p className="flex gap-1">
                 <span>
                   #<b className="text-white">{table.number}</b>
@@ -214,20 +229,22 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
             const badge = StatusBadges.find(b => b.status === ev.status)
             if (!badge) return null
 
+            const eventStyle = {
+              backgroundColor: badge.bgColor,
+              borderColor: badge.borderColor,
+              top: HEADER_HEIGHT + ev.y * CELL_HEIGHT + ev.offsetTop,
+              left: HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX,
+              width: `${ev.width}px`,
+              height: `${ev.height}px`,
+              zIndex: ev.zIndex
+            }
+
             if (ev.isOrder) {
               return (
                 <div
                   key={ev.id}
                   className={`absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2`}
-                  style={{
-                    backgroundColor: badge.bgColor,
-                    borderColor: badge.borderColor,
-                    top: HEADER_HEIGHT + ev.y * CELL_HEIGHT + ev.offsetTop,
-                    left: HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX,
-                    width: `${ev.width}px`,
-                    height: `${ev.height}px`,
-                    zIndex: ev.zIndex
-                  }}>
+                  style={eventStyle}>
                   <p className="font-medium">{ev.orderLabel}</p>
                   {ev.status !== 'Banquet' && (
                     <div
@@ -253,15 +270,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   className={
                     'absolute text-[11px] border-l-2 rounded-sm truncate p-1 pl-2'
                   }
-                  style={{
-                    backgroundColor: badge.bgColor,
-                    borderColor: badge.borderColor,
-                    top: HEADER_HEIGHT + ev.y * CELL_HEIGHT + ev.offsetTop,
-                    left: HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX,
-                    width: `${ev.width}px`,
-                    height: `${ev.height}px`,
-                    zIndex: ev.zIndex
-                  }}>
+                  style={eventStyle}>
                   <p className="text-[10px] text-stone-300">
                     #{ev.reservationId}
                   </p>
