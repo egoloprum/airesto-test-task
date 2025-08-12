@@ -3,6 +3,7 @@
 import { Phone } from 'lucide-react'
 
 import { BookingData } from '@/entities/booking'
+import { useTheme } from '@/features/(navbar)'
 
 import {
   CalculateEventHeight,
@@ -24,9 +25,11 @@ interface TimeTableProps {
 }
 
 export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
+  const { theme } = useTheme()
+
   if (!zone.length) {
     return (
-      <div className="text-white mt-8">
+      <div className="text-amber-500 dark:text-yellow-500 mt-8">
         Выбирай какой-то зон чтобы посмотреть таблицу
       </div>
     )
@@ -166,22 +169,22 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
   })
 
   return (
-    <div className={`mt-8 w-full scrollbar`}>
-      <div className="text-white inline-block relative">
+    <div className={`mt-8 w-full  overflow-x-auto overflow-y-hidden scrollbar`}>
+      <div className="text-black dark:text-white inline-block relative pr-10">
         {/* Header row */}
         <div className="flex sticky top-0 z-20">
           <div className="h-10 w-8"></div>
           {tablesInSelectedZones.map(table => (
             <div
               key={table.id}
-              className="flex flex-col items-center justify-center text-xs text-stone-400"
+              className="flex flex-col items-center justify-center text-xs text-stone-500 dark:text-stone-400"
               style={{
                 height: `${CELL_HEIGHT}px`,
                 width: `${CELL_WIDTH}px`
               }}>
               <p className="flex gap-1">
                 <span>
-                  #<b className="text-white">{table.number}</b>
+                  #<b className="text-black dark:text-white">{table.number}</b>
                 </span>
                 <span>{table.capacity} чел</span>
               </p>
@@ -196,7 +199,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
           {timeSlots.map((slot, index) => (
             <div
               key={slot.time}
-              className="text-xs text-stone-400 w-fit"
+              className="text-xs text-stone-500 dark:text-stone-400 w-fit"
               style={{
                 top: `${(index + 1) * CELL_HEIGHT}px`,
                 height: `${CELL_HEIGHT}px`
@@ -209,8 +212,9 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
           {tablesInSelectedZones.map((table, tableIndex) => (
             <div
               key={table.id}
-              className="absolute top-0 border-r border-stone-800"
+              className="absolute top-0 border-r border-stone-200 dark:border-stone-800"
               style={{
+                top: `${HEADER_HEIGHT}px`,
                 left: `${HEADER_WIDTH + tableIndex * CELL_WIDTH}px`,
                 width: `${CELL_WIDTH}px`,
                 height: `${timeSlots.length * CELL_HEIGHT}px`
@@ -218,9 +222,9 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               {timeSlots.map((_, index) => (
                 <div
                   key={index}
-                  className="absolute border-b border-stone-800"
+                  className="absolute border-b border-stone-200 dark:border-stone-800"
                   style={{
-                    top: `${index * CELL_HEIGHT}px`,
+                    top: `${(index - 1) * CELL_HEIGHT}px`,
                     height: `${CELL_HEIGHT}px`,
                     width: '100%'
                   }}
@@ -235,7 +239,8 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
             if (!badge) return null
 
             const eventStyle = {
-              backgroundColor: badge.bgColor,
+              backgroundColor:
+                theme === 'dark' ? badge.bgColor : badge.bgColorLight,
               borderColor: badge.borderColor,
               top: HEADER_HEIGHT + ev.y * CELL_HEIGHT + ev.offsetTop,
               left: HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX,
@@ -270,13 +275,19 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                     <div
                       className="flex text-[8px] rounded-[4px] w-fit p-[2px]"
                       style={{
-                        color: badge.badgeTextColor,
-                        backgroundColor: badge.badgeBgColor
+                        color:
+                          theme === 'dark'
+                            ? badge.badgeTextColor
+                            : badge.badgeTextColorLight,
+                        backgroundColor:
+                          theme === 'dark'
+                            ? badge.badgeBgColor
+                            : badge.badgeBgColorLight
                       }}>
                       <span>{badge.content}</span>
                     </div>
                   )}
-                  <p className="text-[10px] text-stone-300">
+                  <p className="text-[10px] text-stone-500 dark:text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>
@@ -295,7 +306,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   onMouseLeave={e => {
                     Object.assign(e.currentTarget.style, eventStyle)
                   }}>
-                  <p className="text-[10px] text-stone-300">
+                  <p className="text-[10px] text-stone-500 dark:text-stone-300">
                     #{ev.reservationId}
                   </p>
                   <p className="flex gap-1 items-center">
@@ -307,8 +318,14 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   <div
                     className="flex text-[8px] rounded-[4px] w-fit p-[2px]"
                     style={{
-                      color: badge.badgeTextColor,
-                      backgroundColor: badge.badgeBgColor
+                      color:
+                        theme === 'dark'
+                          ? badge.badgeTextColor
+                          : badge.badgeTextColorLight,
+                      backgroundColor:
+                        theme === 'dark'
+                          ? badge.badgeBgColor
+                          : badge.badgeBgColorLight
                     }}>
                     <span className="truncate max-w-14">{badge.content}</span>
                   </div>
@@ -318,7 +335,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                       {ev.reservationPhoneNumber}
                     </span>
                   </div>
-                  <p className="text-[10px] text-stone-300">
+                  <p className="text-[10px] text-stone-500 dark:text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>

@@ -13,76 +13,102 @@ export const StatusBadges = [
     status: 'New',
     content: 'Новый',
     bgColor: 'rgba(127, 215, 204, 0.16)',
+    bgColorLight: 'rgba(127, 215, 204, 0.3)',
     borderColor: 'rgba(127, 215, 204, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(255, 255, 255, 0.12)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(255, 255, 255, 0.12)',
+    badgeBgColorLight: 'rgba(255, 255, 255, 0.7)'
   },
   {
     status: 'Bill',
     content: 'Пречек',
     bgColor: 'rgba(127, 215, 204, 0.16)',
+    bgColorLight: 'rgba(127, 215, 204, 0.3)',
     borderColor: 'rgba(127, 215, 204, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(74, 201, 155, 0.32)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(74, 201, 155, 0.32)',
+    badgeBgColorLight: 'rgba(74, 201, 155, 0.5)'
   },
   {
     status: 'Closed',
     content: 'Закрытый',
     bgColor: 'rgba(127, 215, 204, 0.16)',
+    bgColorLight: 'rgba(127, 215, 204, 0.3)',
     borderColor: 'rgba(127, 215, 204, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(255, 255, 255, 0.12)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(255, 255, 255, 0.12)',
+    badgeBgColorLight: 'rgba(255, 255, 255, 0.7)'
   },
   {
     status: 'Banquet',
     content: 'Банкет',
     bgColor: 'rgba(179, 72, 247, 0.16)',
+    bgColorLight: 'rgba(179, 72, 247, 0.3)',
     borderColor: 'rgba(123, 67, 158, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(179, 72, 247, 0.32)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(179, 72, 247, 0.32)',
+    badgeBgColorLight: 'rgba(179, 72, 247, 0.5)'
   },
   {
     status: 'Живая очередь',
     content: 'Живая очередь',
     bgColor: 'rgba(0, 151, 253, 0.16)',
+    bgColorLight: 'rgba(0, 151, 253, 0.3)',
     borderColor: 'rgba(0, 122, 255, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(255, 255, 255, 0.12)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(255, 255, 255, 0.12)',
+    badgeBgColorLight: 'rgba(255, 255, 255, 0.7)'
   },
   {
     status: 'Новая',
     content: 'Ожидает подтверждения',
     bgColor: 'rgba(255, 112, 67, 0.16)',
+    bgColorLight: 'rgba(255, 112, 67, 0.3)',
     borderColor: 'rgba(255, 112, 67, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(0, 122, 255, 1)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(0, 122, 255, 1)',
+    badgeBgColorLight: 'rgba(0, 122, 255, 0.7)'
   },
   {
     status: 'Заявка',
     content: 'Ожидаем',
     bgColor: 'rgba(255, 112, 67, 0.16)',
+    bgColorLight: 'rgba(255, 112, 67, 0.3)',
     borderColor: 'rgba(255, 112, 67, 1)',
     badgeTextColor: 'rgba(0, 151, 253, 1)',
-    badgeBgColor: 'rgba(0, 151, 253, 0.1)'
+    badgeTextColorLight: 'rgba(0, 100, 200, 1)',
+    badgeBgColor: 'rgba(0, 151, 253, 0.1)',
+    badgeBgColorLight: 'rgba(0, 151, 253, 0.2)'
   },
   {
     status: 'Открыт',
     content: 'В зале',
     bgColor: 'rgba(255, 112, 67, 0.16)',
+    bgColorLight: 'rgba(255, 112, 67, 0.3)',
     borderColor: 'rgba(255, 112, 67, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(74, 201, 155, 0.32)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(74, 201, 155, 0.32)',
+    badgeBgColorLight: 'rgba(74, 201, 155, 0.5)'
   },
   {
     status: 'Закрыт',
     content: 'Отменен',
     bgColor: 'rgba(255, 112, 67, 0.16)',
+    bgColorLight: 'rgba(255, 112, 67, 0.3)',
     borderColor: 'rgba(255, 112, 67, 1)',
     badgeTextColor: 'rgba(255, 255, 255, 1)',
-    badgeBgColor: 'rgba(255, 255, 255, 0.12)'
+    badgeTextColorLight: 'rgba(0, 0, 0, 0.8)',
+    badgeBgColor: 'rgba(255, 255, 255, 0.12)',
+    badgeBgColorLight: 'rgba(255, 255, 255, 0.7)'
   }
 ]
-
 export const FormatISOTimeToHHMM = (isoString: string): string => {
   const timeMatch = isoString.match(/T(\d{2}):(\d{2})/)
   if (!timeMatch) throw new Error('Invalid ISO date string format')

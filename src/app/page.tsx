@@ -46,8 +46,8 @@ export default async function Home({
   const bookingData = await fetchBookingData(date, zone)
 
   return (
-    <main className="px-8 py-16">
-      <h1 className="text-white text-2xl">Бронирования</h1>
+    <main className="px-4 sm:px-8 py-16">
+      <h1 className="dark:text-white text-2xl font-semibold">Бронирования</h1>
       <DateSegmentControl />
       <ZoneSegmentControl />
       <TimeTable zone={filteredZones} bookingData={bookingData} />

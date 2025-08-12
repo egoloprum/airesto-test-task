@@ -37,7 +37,6 @@ export async function GET(request: Request) {
       break
   }
 
-  // Filter tables by zone if zone parameter is provided
   if (zone) {
     const zones = zone.split(',')
     bookingData = {
