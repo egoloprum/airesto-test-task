@@ -3,6 +3,7 @@
 import { Phone } from 'lucide-react'
 
 import { BookingData } from '@/entities/booking'
+import { useTheme } from '@/features/(navbar)'
 
 import {
   CalculateEventHeight,
@@ -24,6 +25,8 @@ interface TimeTableProps {
 }
 
 export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
+  const { theme } = useTheme()
+
   if (!zone.length) {
     return (
       <div className="text-amber-500 dark:text-yellow-500 mt-8">
@@ -166,8 +169,8 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
   })
 
   return (
-    <div className={`mt-8 w-full scrollbar`}>
-      <div className="text-black dark:text-white inline-block relative">
+    <div className={`mt-8 w-full  overflow-x-auto overflow-y-hidden scrollbar`}>
+      <div className="text-black dark:text-white inline-block relative pr-10">
         {/* Header row */}
         <div className="flex sticky top-0 z-20">
           <div className="h-10 w-8"></div>
@@ -236,7 +239,8 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
             if (!badge) return null
 
             const eventStyle = {
-              backgroundColor: badge.bgColor,
+              backgroundColor:
+                theme === 'dark' ? badge.bgColor : badge.bgColorLight,
               borderColor: badge.borderColor,
               top: HEADER_HEIGHT + ev.y * CELL_HEIGHT + ev.offsetTop,
               left: HEADER_WIDTH + ev.x * CELL_WIDTH + ev.offsetX,
@@ -271,13 +275,19 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                     <div
                       className="flex text-[8px] rounded-[4px] w-fit p-[2px]"
                       style={{
-                        color: badge.badgeTextColor,
-                        backgroundColor: badge.badgeBgColor
+                        color:
+                          theme === 'dark'
+                            ? badge.badgeTextColor
+                            : badge.badgeTextColorLight,
+                        backgroundColor:
+                          theme === 'dark'
+                            ? badge.badgeBgColor
+                            : badge.badgeBgColorLight
                       }}>
                       <span>{badge.content}</span>
                     </div>
                   )}
-                  <p className="text-[10px] text-stone-400 dark:text-stone-300">
+                  <p className="text-[10px] text-stone-500 dark:text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>
@@ -296,7 +306,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   onMouseLeave={e => {
                     Object.assign(e.currentTarget.style, eventStyle)
                   }}>
-                  <p className="text-[10px] text-stone-400 dark:text-stone-300">
+                  <p className="text-[10px] text-stone-500 dark:text-stone-300">
                     #{ev.reservationId}
                   </p>
                   <p className="flex gap-1 items-center">
@@ -308,8 +318,14 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   <div
                     className="flex text-[8px] rounded-[4px] w-fit p-[2px]"
                     style={{
-                      color: badge.badgeTextColor,
-                      backgroundColor: badge.badgeBgColor
+                      color:
+                        theme === 'dark'
+                          ? badge.badgeTextColor
+                          : badge.badgeTextColorLight,
+                      backgroundColor:
+                        theme === 'dark'
+                          ? badge.badgeBgColor
+                          : badge.badgeBgColorLight
                     }}>
                     <span className="truncate max-w-14">{badge.content}</span>
                   </div>
@@ -319,7 +335,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                       {ev.reservationPhoneNumber}
                     </span>
                   </div>
-                  <p className="text-[10px] text-stone-400 dark:text-stone-300">
+                  <p className="text-[10px] text-stone-500 dark:text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>
