@@ -36,15 +36,15 @@ export const ZoneSegmentControl = ({}) => {
 
   return (
     <div className="mt-4 flex flex-col gap-2">
-      <p className="text-stone-400">Отображаемые зоны</p>
+      <p className="text-stone-500 dark:text-stone-">Отображаемые зоны</p>
       <div className="flex gap-4">
         {zones.map(zone => (
           <motion.button
             key={zone}
-            className={`px-4 py-2 rounded-md cursor-pointer transition-colors text-white ${
+            className={`px-4 py-2 rounded-md cursor-pointer transition-colors border border-stone-200 dark:border-stone-700 dark:text-white ${
               isActive(zone)
-                ? 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
-                : 'bg-stone-800 hover:bg-stone-700 active:bg-stone-600'
+                ? 'bg-blue-200 hover:bg-blue-300 active:bg-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:active:bg-blue-700'
+                : 'bg-yellow-50 hover:bg-yellow-100 active:bg-yellow-200 dark:bg-stone-800 dark:hover:bg-stone-700 dark:active:bg-stone-600'
             }`}
             onClick={() => clickHandler(zone)}
             whileHover={{ scale: 1.05 }}

@@ -47,7 +47,7 @@ export default async function Home({
 
   return (
     <main className="px-8 py-16">
-      <h1 className="text-white text-2xl">Бронирования</h1>
+      <h1 className="dark:text-white text-2xl font-semibold">Бронирования</h1>
       <DateSegmentControl />
       <ZoneSegmentControl />
       <TimeTable zone={filteredZones} bookingData={bookingData} />

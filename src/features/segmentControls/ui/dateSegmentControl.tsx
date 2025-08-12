@@ -52,15 +52,15 @@ export const DateSegmentControl = ({}) => {
 
   return (
     <div className="mt-8 flex flex-col gap-2">
-      <p className="text-stone-400">Дата</p>
+      <p className="text-stone-500 dark:text-stone-400">Дата</p>
       <div className="flex gap-4">
         {dates.map(item => (
           <motion.button
             key={item.date}
-            className={`px-4 py-2 rounded-md flex flex-col items-start cursor-pointer transition-colors text-white ${
+            className={`px-4 py-2 rounded-md flex flex-col items-start cursor-pointer transition-colors border border-stone-200 dark:border-stone-700 dark:text-white ${
               isActive(item.date)
-                ? 'bg-blue-500 hover:bg-blue-600 active:bg-blue-700'
-                : 'bg-stone-800 hover:bg-stone-700 active:bg-stone-600'
+                ? 'bg-blue-200 hover:bg-blue-300 active:bg-blue-400 dark:bg-blue-500 dark:hover:bg-blue-600 dark:active:bg-blue-700'
+                : 'bg-yellow-50 hover:bg-yellow-100 active:bg-yellow-200 dark:bg-stone-800 dark:hover:bg-stone-700 dark:active:bg-stone-600'
             }`}
             onClick={() => clickHandler(item.date)}
             whileHover={{ scale: 1.05 }}

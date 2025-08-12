@@ -26,7 +26,7 @@ interface TimeTableProps {
 export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
   if (!zone.length) {
     return (
-      <div className="text-white mt-8">
+      <div className="text-amber-500 dark:text-yellow-500 mt-8">
         Выбирай какой-то зон чтобы посмотреть таблицу
       </div>
     )
@@ -167,21 +167,21 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
 
   return (
     <div className={`mt-8 w-full scrollbar`}>
-      <div className="text-white inline-block relative">
+      <div className="text-black dark:text-white inline-block relative">
         {/* Header row */}
         <div className="flex sticky top-0 z-20">
           <div className="h-10 w-8"></div>
           {tablesInSelectedZones.map(table => (
             <div
               key={table.id}
-              className="flex flex-col items-center justify-center text-xs text-stone-400"
+              className="flex flex-col items-center justify-center text-xs text-stone-500 dark:text-stone-400"
               style={{
                 height: `${CELL_HEIGHT}px`,
                 width: `${CELL_WIDTH}px`
               }}>
               <p className="flex gap-1">
                 <span>
-                  #<b className="text-white">{table.number}</b>
+                  #<b className="text-black dark:text-white">{table.number}</b>
                 </span>
                 <span>{table.capacity} чел</span>
               </p>
@@ -196,7 +196,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
           {timeSlots.map((slot, index) => (
             <div
               key={slot.time}
-              className="text-xs text-stone-400 w-fit"
+              className="text-xs text-stone-500 dark:text-stone-400 w-fit"
               style={{
                 top: `${(index + 1) * CELL_HEIGHT}px`,
                 height: `${CELL_HEIGHT}px`
@@ -209,8 +209,9 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
           {tablesInSelectedZones.map((table, tableIndex) => (
             <div
               key={table.id}
-              className="absolute top-0 border-r border-stone-800"
+              className="absolute top-0 border-r border-stone-200 dark:border-stone-800"
               style={{
+                top: `${HEADER_HEIGHT}px`,
                 left: `${HEADER_WIDTH + tableIndex * CELL_WIDTH}px`,
                 width: `${CELL_WIDTH}px`,
                 height: `${timeSlots.length * CELL_HEIGHT}px`
@@ -218,9 +219,9 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
               {timeSlots.map((_, index) => (
                 <div
                   key={index}
-                  className="absolute border-b border-stone-800"
+                  className="absolute border-b border-stone-200 dark:border-stone-800"
                   style={{
-                    top: `${index * CELL_HEIGHT}px`,
+                    top: `${(index - 1) * CELL_HEIGHT}px`,
                     height: `${CELL_HEIGHT}px`,
                     width: '100%'
                   }}
@@ -276,7 +277,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                       <span>{badge.content}</span>
                     </div>
                   )}
-                  <p className="text-[10px] text-stone-300">
+                  <p className="text-[10px] text-stone-400 dark:text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>
@@ -295,7 +296,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                   onMouseLeave={e => {
                     Object.assign(e.currentTarget.style, eventStyle)
                   }}>
-                  <p className="text-[10px] text-stone-300">
+                  <p className="text-[10px] text-stone-400 dark:text-stone-300">
                     #{ev.reservationId}
                   </p>
                   <p className="flex gap-1 items-center">
@@ -318,7 +319,7 @@ export const TimeTable = ({ zone, bookingData }: TimeTableProps) => {
                       {ev.reservationPhoneNumber}
                     </span>
                   </div>
-                  <p className="text-[10px] text-stone-300">
+                  <p className="text-[10px] text-stone-400 dark:text-stone-300">
                     {ev.start} - {ev.end}
                   </p>
                 </div>
